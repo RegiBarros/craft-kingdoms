@@ -23,6 +23,7 @@ const Login = () => {
   const wallet = useWallet();
   const address = useAddress();
   const sdk = useSDK();
+  const [walletAddress, setWalletAddress] = useState("");
   const [loadingLordStatus, setLoadingLordStatus] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
 
@@ -72,10 +73,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn && !isLoading) {
+    if (isLoggedIn && !isLoading && address) {
+      setWalletAddress(address);
       checkNewPlayer();
     }
-  }, [isLoggedIn, isLoading, router]);
+  }, [isLoggedIn, isLoading, address, router]);
 
   if (loadingLordStatus) {
     return (
@@ -98,6 +100,11 @@ const Login = () => {
             loginOptional: logingOptional,
           }}
         />
+      )}
+      {walletAddress && (
+        <button className={styles.wallet_button}>
+          {walletAddress}
+        </button>
       )}
     </div>
   );
